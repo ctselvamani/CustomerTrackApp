@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1= 'MyBank'
+  p Welcome to #[em My Bank], a banking portal to track customer experience.
+  hr
+  h3= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='Branch Location') Branch Location:
+      select#banklocation.form-control(type='select', placeholder='Select Branch' name='banklocation' required='true' )
+        for banklocation in banklocations 
+          if customertrack 
+            option(value=banklocation.branch selected=(banklocation.branch==customertrack.banklocation ? 'selected' : false) ) #{banklocation.branch}
+          else
+            option(value=banklocation.branch) #{banklocation.branch}
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

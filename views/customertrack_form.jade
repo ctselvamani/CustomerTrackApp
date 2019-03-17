@@ -1,0 +1,67 @@
+extends layout
+
+block content
+  h1= 'MyBank'
+  p Welcome to #[em My Bank], a banking portal to track customer experience.
+  hr
+  h3= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='firstname') Firstname:
+      input#firstname.form-control(type='text', placeholder='Firstname' name='firstname' required='true' value=(undefined===customertrack ? '' : customertrack.firstname) )
+    div.form-group
+      label(for='lastname') Lastname:
+      input#lastname.form-control(type='text', placeholder='Lastname' name='lastname' required='true' value=(undefined===customertrack ? '' : customertrack.lastname) )
+    div.form-group
+      label(for='email') EmailAddress:
+      input#email.form-control(type='text', placeholder='EmailAddress' name='email' required='true' value=(undefined===customertrack ? '' : customertrack.email) )
+    div.form-group
+      label(for='iscustomer') Existing Customer:
+      select#iscustomer.form-control(type='select' placeholder='Select Yes or No' name='iscustomer' required='true')
+        option(value='yes') Yes 
+        option(value='no') No 
+    div.form-group
+      label(for='zip') Zip:
+      input#zip.form-control(type='text', placeholder='Zip' name='zip' required='true' value=(undefined===customertrack ? '' : customertrack.zip) )
+    div.form-group
+      label(for='city') City:
+      input#city.form-control(type='text', placeholder='City' name='city' required='true' value=(undefined===customertrack ? '' : customertrack.city) )
+    div.form-group
+      label(for='Type of Interaction') Type of Interaction:
+      select#iscustomer.form-control(type='select' placeholder='Select the type of interaction' name='typeofinter' required='true')
+        option(value='General Enquiry') General Enquiry
+        option(value='Deposit') Deposit 
+        option(value='Withdrawal') Withdrawal 
+        option(value='Loan') Loan 
+        option(value='CD') CD 
+        option(value='New Personal Account') New Personal Account 
+        option(value='New Business Account') New Business Account 
+    div.form-group
+      label(for='Length of Interaction') Interaction Minutes:
+      input#lengthofinter.form-control(type='text', placeholder='Interaction Minutes' name='lengthofinter' required='true' value=(undefined===customertrack ? '' : customertrack.lengthofinter) )
+    div.form-group
+      label(for='Additional Comments') Additional Comments:
+      input#additionalcoms.form-control(type='text', placeholder='Additional Comments' name='additionalcoms' value=(undefined===customertrack ? '' : customertrack.additionalcoms) )
+    div.form-group
+      label(for='Branch Location') Branch Location:
+      select#banklocation.form-control(type='select', placeholder='Select Branch' name='banklocation' required='true' )
+        for banklocation in banklocations 
+          if customertrack 
+            option(value=banklocation.branch selected=(banklocation.branch==customertrack.banklocation ? 'selected' : false) ) #{banklocation.branch}
+          else
+            option(value=banklocation.branch) #{banklocation.branch}
+    div.form-group
+      label(for='empid') Employee ID:
+      select#empid.form-control(type='select', placeholder='Select Employee ID' name='empid' required='true' )
+        for employee in employees 
+          if customertrack 
+            option(value=employee._id selected=(employee._id.toString()==customertrack.empid ? 'selected' : false) ) #{employee.firstname}
+          else
+            option(value=employee._id) #{employee.name}
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

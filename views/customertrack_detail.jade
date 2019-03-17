@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 #{title}: #{customertrack.firstname} #{customertrack.lastname}
+  
+  p #[strong Email:] #{customertrack.email}
+  p #[strong Type of Interaction:] #{customertrack.typeofinter}
+  p #[strong Length of Interaction:] #{customertrack.lengthofinter} #[em minutes]
+  p #[strong City:] #{customertrack.city}
+  p #[strong Zip:] #{customertrack.zip}
+  p #[strong Branch Location:] #{customertrack.banklocation}
+  p #[strong Employee ID:] #{customertrack.empid}
+  p #[strong Date of Interaction:] #{customertrack.dateofinter_formatted}
+  p #[strong Additional Comments:] #{customertrack.additionalcoms}
