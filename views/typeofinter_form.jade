@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= 'MyBank'
+  p Welcome to #[em My Bank], a banking portal to track customer experience.
+  hr
+  h3= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='Type of Interaction') Type of Interaction:
+      select#iscustomer.form-control(type='select' placeholder='Select the type of interaction' name='typeofinter' required='true')
+        option(value='General Enquiry') General Enquiry
+        option(value='Deposit') Deposit 
+        option(value='Withdrawal') Withdrawal 
+        option(value='Loan') Loan 
+        option(value='CD') CD 
+        option(value='New Personal Account') New Personal Account 
+        option(value='New Business Account') New Business Account 
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

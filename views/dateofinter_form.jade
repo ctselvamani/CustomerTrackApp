@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= 'MyBank'
+  p Welcome to #[em My Bank], a banking portal to track customer experience.
+  hr
+  h3= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='startdate') Startdate :
+      input#sdate.form-control(type='text', placeholder='Startdate YYYY-MM-DD' name='sdate' required='true' value=(undefined===customertrack ? '' : customertrack.sdate) )
+    div.form-group
+      label(for='enddate') Enddate:
+      input#edate.form-control(type='text', placeholder='Enddate YYYY-MM-DD' name='edate' required='true' value=(undefined===customertrack ? '' : customertrack.edate) )
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  h1= 'MyBank'
+  p Welcome to #[em My Bank], a banking portal to track customer experience.
+  hr
+  h3= title
+
+  div
+    style.
+      table, th, td {
+      padding: 5px;
+      border: 1px dotted black;}
+      tr:nth-child(even) {background-color: #f2f2f2;}
+      th:last-child,
+      td:last-child,
+      th:nth-last-child(1),
+      td:nth-last-child(1) {text-align: right;}
+    table(style="width:80%")
+      thead
+        tr
+         th Date 
+         th Email 
+         th Name 
+         th BranchLocation 
+         th Minutes 
+      tbody
+        each val, i in customertrack 
+          tr 
+            td
+              p #{val.dateofinter_formatted}
+            td
+              p #{val.email} 
+            td
+              p #{val.firstname} #{val.lastname} 
+            td
+              p #{val.banklocation} 
+            td 
+              p #{val.lengthofinter} 
+        else
+          li There are no track records for this interaction type.

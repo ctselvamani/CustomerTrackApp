@@ -1,8 +1,12 @@
+var moment = require('moment');
+
 const Employee = require('../models/employee');
 const Banklocation= require('../models/banklocation');
 const Customertrack = require('../models/customertrack');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
+
+console.log('This');
 
 var async = require('async');
 
@@ -145,3 +149,84 @@ exports.customertrack_banklocation_detail= function(req, res) {
         res.render('customertrack_banklocation_details', { title: 'Branch Location: ' + req.params.banklocation, customertrack: customertrack } );
     })
 };
+
+
+exports.customertrack_typeofinter_get = function(req, res, next) {
+
+        res.render('typeofinter_form', { title: 'Report by Type Of Interaction'});
+};
+
+exports.customertrack_typeofinter_post = [
+    // Validate fields.
+    body('typeofinter', 'Type Of Interaction cannot be empty').isLength({ min: 1}).trim(),
+
+    // Sanitize fields (using wildcard).
+    sanitizeBody('*').trim().escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+        const typeofinterurl = '/customertrack/typeofinter/' + req.body.typeofinter;
+                   res.redirect(typeofinterurl);
+        }
+];
+
+exports.customertrack_typeofinter_detail= function(req, res) {
+
+    Customertrack.find({typeofinter:req.params.typeofinter}, function (err, customertrack) {
+        if (err) return next(err);
+        if (customertrack==null) { // No results.
+           var err = new Error('Customer Track not found');
+           err.status = 404;
+           return next(err);
+        }
+        // Successful, so render.
+        res.render('customertrack_typeofinter_details', { title: 'Type Of Interaction: ' + req.params.typeofinter, customertrack: customertrack } );
+    })
+};
+
+
+
+exports.customertrack_dateofinter_get = function(req, res, next) {
+
+        res.render('dateofinter_form', { title: 'Report by Date Of Interaction'});
+};
+
+exports.customertrack_dateofinter_post = [
+    
+    // Validate fields.
+    body('sdate', 'Start Date cannot be empty').isLength({ min: 1}).trim(),
+    body('edate', 'End Date cannot be empty').isLength({ min: 1}).trim(),
+    // Sanitize fields (using wildcard).
+    sanitizeBody('*').trim().escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+    console.log('I am here');
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req); 
+        if (!errors.isEmpty()) {
+            console.log('An error happened'+errors)};
+        //console.log(req.body.sdate);
+        const dateofinterurl = '/customertrack/dateofinter/' + req.body.sdate+'&'+req.body.edate;
+                   res.redirect(dateofinterurl);
+        }
+];
+
+exports.customertrack_dateofinter_detail= function(req, res) {
+
+    Customertrack.find({dateofinter:{$gte: req.params.sdate, $lte: req.params.edate}}, function (err, customertrack) {
+        if (err) return next(err);
+        if (customertrack==null) { // No results.
+           var err = new Error('Customer Track not found');
+           err.status = 404;
+           return next(err);
+        }
+        // Successful, so render.
+        res.render('customertrack_dateofinter_details', { title: 'Date Of Interaction: ' + moment(req.params.sdate).format('YYYY-MM-DD') + '  -  ' + moment(req.params.edate).format('YYYY-MM-DD'), customertrack: customertrack } );
+    })
+};
+
